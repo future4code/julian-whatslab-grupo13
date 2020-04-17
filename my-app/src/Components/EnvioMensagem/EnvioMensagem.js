@@ -1,4 +1,5 @@
 import React from "react";
+import './EnvioMensagem.css' 
 
 export class EnvioMensagem extends React.Component {
   state = {
@@ -15,9 +16,11 @@ export class EnvioMensagem extends React.Component {
 
   adicionaMensagem = () => {
     const novaMensagem = {
-      nome: this.state.valorInputNome,
+      nome: this.state.valorInputNome + " :",
       texto: this.state.valorInputTexto
-    };
+
+    }
+    ;
 
     const novasMensagens = [...this.state.mensagem, novaMensagem];
 
@@ -35,8 +38,8 @@ export class EnvioMensagem extends React.Component {
   render() {
     const listaMensagens = this.state.mensagem.map(mensagem => {
       return (
-        <div className={"listaMensagem"}>
-          <p className={"pNome"}>{mensagem.nome}</p>
+        <div className={"listaMensagem"} id="lista"> 
+          <p className={"pNome"} id="nome">{mensagem.nome}</p>
           <p>{mensagem.texto}</p>
         </div>
       );
@@ -46,7 +49,7 @@ export class EnvioMensagem extends React.Component {
       <div>
         <div>{listaMensagens}</div>
         <div>
-          <input className={'inputNome'}
+          <input className={'inputNome'} id="input"
             value={this.state.valorInputNome}
             onChange={this.onChangeInputNome}
             placeholder={"Usuário"}
