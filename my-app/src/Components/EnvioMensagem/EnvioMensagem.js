@@ -1,5 +1,5 @@
 import React from "react";
-import './EnvioMensagem.css' 
+import './EnvioMensagem.css'
 
 export class EnvioMensagem extends React.Component {
   state = {
@@ -16,17 +16,21 @@ export class EnvioMensagem extends React.Component {
 
   adicionaMensagem = () => {
     const novaMensagem = {
-      nome: this.state.valorInputNome + " :",
+      nome: this.state.valorInputNome,
       texto: this.state.valorInputTexto
 
     }
-    ;
 
     const novasMensagens = [...this.state.mensagem, novaMensagem];
 
     this.setState({ mensagem: novasMensagens });
   };
 
+  onKeyDown = event => {
+    if (event.key === "Enter") {
+      this.adicionaMensagem();
+    }
+  };
   onChangeInputNome = event => {
     this.setState({ valorInputNome: event.target.value });
   };
@@ -37,19 +41,30 @@ export class EnvioMensagem extends React.Component {
 
   render() {
     const listaMensagens = this.state.mensagem.map(mensagem => {
+      if (mensagem.usuario === "eu") {
+        return (
+          <div className={"box-lista-eu"}>
+            <p classNome={"pNomeEu"}>{mensagem.nome}</p>
+            <p>{mensagem.texto}</p>
+          </div>
+        );
+
+      } else {
       return (
-        <div className={"listaMensagem"} id="lista"> 
+        <div className={"listaMensagem"} id="lista">
           <p className={"pNome"} id="nome">{mensagem.nome}</p>
           <p>{mensagem.texto}</p>
         </div>
       );
+
+      }
     });
 
     return (
       <div>
-        <div>{listaMensagens}</div>
-        <div>
-          <input className={'inputNome'} id="input"
+        <div className={"div-mensagens"}>{listaMensagens}</div>
+        <div className={"inputs"} >
+          <input className={'inputNome'} id={"input"}
             value={this.state.valorInputNome}
             onChange={this.onChangeInputNome}
             placeholder={"Usuário"}
@@ -58,10 +73,13 @@ export class EnvioMensagem extends React.Component {
             value={this.state.valorInputTexto}
             onChange={this.onChangeInputTexto}
             placeholder={"Mensagem"}
+            onKeyDown={this.onKeyDown}
           />
           <button onClick={this.adicionaMensagem}>ENVIAR</button>
         </div>
       </div>
     );
+
+
   }
 }
